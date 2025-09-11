@@ -1,43 +1,32 @@
-import React from "react";
-
 export default function Main() {
+  const ingredients = ["Chicken", "Oregano", "Tomatoes"];
 
-    /**
-     * Challenge: Update our app so that when the user enters a
-     * new ingredient and submits the form, it adds that new
-     * ingredient to our list!
-     */
+  const ingredientsListItems = ingredients.map((ingredient) => {
+    <li key={ingredient}>{ingredient}</li>;
+  });
 
-    const [ingredients, setIngredients] = React.useState([]);
+  function submitForm(event) {
+    event.preventDefault();
+    console.log("Form Submitted!");
+    const formData = new FormData(event.currentTarget);
+    const newIngredient = formData.get("ingredient");
+    ingredients.push(newIngredient);
+    console.log(ingredients);
+  }
 
-    const ingredientsListItems = ingredients.map(ingredient => (
-        <li key={ingredient}>{ingredient}</li>
-    ))
+  return (
+    <main>
+      <form onClick={submitForm} className="add-ingredient-form">
+        <input
+          aria-label="Add ingredient"
+          type="text"
+          placeholder="e.g. oregano"
+          name="ingredient"
+        />
+        <button>Add ingredient</button>
+      </form>
 
-    function submitForm(formData) {
-        /**
-         * Like before, don't worry about this FormData stuff yet.
-         * Just use the newIngredient below to help you finish the
-         * challenge.
-         */
-        const newIngredient = formData.get("ingredient")
-        setIngredients(prevIngredient => [...prevIngredient, newIngredient]);
-    }
-
-    return (
-        <main>
-            <form action={submitForm} className="add-ingredient-form">
-                <input
-                    type="text"
-                    placeholder="e.g. oregano"
-                    aria-label="Add ingredient"
-                    name="ingredient"
-                />
-                <button>Add ingredient</button>
-            </form>
-            <ul>
-                {ingredientsListItems}
-            </ul>
-        </main>
-    )
+      <ul>{ingredientsListItems}</ul>
+    </main>
+  );
 }
